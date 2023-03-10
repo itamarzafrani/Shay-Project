@@ -34,7 +34,7 @@ public class LoginController {
                 if (utils.isStrongPassword(password)) {
                     User fromDb = persist.getUserByUsername(username);
                     if (fromDb == null) {
-                        User toAdd = new User(username,utils.createHash(username,password),0);
+                        User toAdd = new User(username,utils.createHash(username,password));
                         persist.saveUser(toAdd);
                         success = true;
                     } else {

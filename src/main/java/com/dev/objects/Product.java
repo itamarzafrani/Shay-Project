@@ -30,24 +30,22 @@ public class Product {
     @Column
     private boolean isOpen;
 
-
     @ManyToOne
-    @JoinColumn
     private User publisher;
 
-    public Product(int id, String productName, String productImg, String productDescription,
-                   int productStartingPrice,int bidAmounts,boolean isOpen,User publisher) {
-        this.id = id;
+    public Product(String productName, String productImg, String productDescription,
+                   int productStartingPrice, User publisher) {
+
         this.productName = productName;
         this.productImg = productImg;
         this.productDescription = productDescription;
         this.productStartingPrice = productStartingPrice;
-        this.isOpen = isOpen;
+        this.isOpen = true;
         this.createDate = new Date();
         this.publisher = publisher;
     }
 
-    public Product () {
+    public Product() {
 
     }
 

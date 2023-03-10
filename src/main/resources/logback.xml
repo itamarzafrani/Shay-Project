@@ -9,8 +9,8 @@
         </encoder>
     </appender>
 
-    <appender name="HOME_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>{HOME_LOG}</file>
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>C://logger/rest-server.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>C://logger/rest-server-%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
@@ -31,7 +31,7 @@
 
     <root level="INFO">
         <appender-ref ref="STDOUT" />
-        <appender-ref ref="HOME_LOG"/>
+        <appender-ref ref="FILE"/>
     </root>
 
 </configuration>

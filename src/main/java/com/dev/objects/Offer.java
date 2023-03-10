@@ -1,6 +1,7 @@
 package com.dev.objects;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -13,7 +14,7 @@ public class Offer {
     private int id;
 
     @Column
-    private int offerAmount;
+    private double offerAmount;
 
     @ManyToOne
     @JoinColumn
@@ -28,12 +29,12 @@ public class Offer {
     @JoinColumn
     private User offerFrom;
 
-    public Offer(int id, int offerAmount, Product product,
-                 Date createDate,  User offerFrom) {
-        this.id = id;
+    public Offer( double offerAmount, Product product,
+                  User offerFrom) {
         this.offerAmount = offerAmount;
         this.product = product;
-        this.createDate = createDate;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        this.createDate = simpleDateFormat.getCalendar().getTime();
         this.offerFrom = offerFrom;
     }
 
@@ -65,7 +66,7 @@ public class Offer {
         this.createDate = createDate;
     }
 
-    public int getOfferAmount() {
+    public double getOfferAmount() {
         return offerAmount;
     }
 

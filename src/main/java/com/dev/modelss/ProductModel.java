@@ -11,22 +11,19 @@ public class ProductModel {
     private String productImg;
     private String productDescription;
 
-    private int publisherId;
+    private String publisherName;
     private int productStartingPrice;
-    private boolean postedByMe = false;
-
 
     public ProductModel() {
-
     }
 
-    public ProductModel(Product product ) {
+    public ProductModel(Product product) {
         this.id = product.getId();
         this.productName = product.getProductName();
         this.productImg = product.getProductImg();
         this.productDescription = product.getProductDescription();
         this.productStartingPrice = product.getProductStartingPrice();
-        this.publisherId = product.getPublisher().getId();
+        this.publisherName = product.getPublisher().getUsername();
     }
 
 
@@ -70,11 +67,11 @@ public class ProductModel {
         this.productStartingPrice = productStartingPrice;
     }
 
-    public boolean isPostedByMe() {
-        return postedByMe;
+    public String getPublisherName() {
+        return publisherName;
     }
 
-    public void setPostedByMe(boolean postedByMe) {
-        this.postedByMe = postedByMe;
+    public void setPublisherName(String publisherName) {
+        this.publisherName = publisherName;
     }
 }

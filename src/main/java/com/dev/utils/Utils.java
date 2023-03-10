@@ -1,5 +1,6 @@
 package com.dev.utils;
 
+import com.dev.responses.BasicResponse;
 import org.springframework.stereotype.Component;
 
 import javax.xml.bind.DatatypeConverter;
@@ -31,4 +32,8 @@ public class Utils {
     public boolean isStrongPassword (String password) {
         return password.length() >= MINIMAL_PASSWORD_LENGTH;
     }
+
+
+
+
 }

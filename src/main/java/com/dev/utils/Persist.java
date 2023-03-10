@@ -63,6 +63,32 @@ public class Persist {
         return allOffers;
     }
 
+    public List<Offer> getOffersByUserAndProduct (User user, Product product) {
+        Session session = sessionFactory.openSession();
+        List<Offer> allOffers = session.createQuery("FROM Offer WHERE product=: product  AND offerFrom=:user").
+                setParameter("product",product).setParameter("user",user).list();
+        session.close();
+        return allOffers;
+    }
+
+
+    public List<Offer> getAmountOfOffersOnProduct(int productId){
+        Session session = sessionFactory.openSession();
+        List<Offer> allOffers = session.createQuery("FROM Offer WHERE product.id=: productId  ").
+                setParameter("productId",productId).list();
+        session.close();
+        return allOffers;
+    }
+
+    public void closeProduct(int productId){
+        Session session = sessionFactory.openSession();
+        Product product = (Product) session.createQuery("FROM Product WHERE id=: productId  ").
+                setParameter("productId",productId).uniqueResult();
+        session.remove(product);
+        session.close();
+    }
+
+
     public List<Product> getAllProducts () {
         Session session = sessionFactory.openSession();
         List<Product> allProducts = session.createQuery("FROM Product ").list();
@@ -94,6 +120,16 @@ public class Persist {
         return user;
     }
 
+    public int getUserIdByToken (String token) {
+        Session session = sessionFactory.openSession();
+        User user = (User) session.createQuery("FROM User WHERE token = :token")
+                .setParameter("token",token)
+                .uniqueResult();
+        int userId = user.getId();
+        session.close();
+        return userId;
+    }
+
     public User getUserById (int id) {
         Session session = sessionFactory.openSession();
         User user = (User) session.createQuery("FROM User WHERE id = :id")
@@ -103,14 +139,32 @@ public class Persist {
         return user;
     }
 
-    public void saveProduct (Product product) {
+    public void saveProduct (Product product ) {
         Session session = sessionFactory.openSession();
         session.save(product);
         session.close();
     }
 
+    public Product getProductById(int productId){
+        Session session = sessionFactory.openSession();
+        Product product = (Product) session.createQuery("FROM Product WHERE id = :productId")
+                .setParameter("productId",productId)
+                .uniqueResult();
+        session.close();
+        return product;
+    }
 
-
-
-
+    public Offer getHighestOffer(int productId){
+        Session session = sessionFactory.openSession();
+      List<Offer> offers =  session.createQuery("FROM Offer WHERE product.id = :productId order by offerAmount desc " )
+                .setParameter("productId",productId).list();
+      Offer highestOffer = offers.get(0);
+        session.close();
+        return highestOffer;
+    }
+    public void saveOffer(Offer offer){
+        Session session = sessionFactory.openSession();
+        session.save(offer);
+        session.close();
+    }
 }

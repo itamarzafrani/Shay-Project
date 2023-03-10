@@ -18,15 +18,15 @@ public class User {
     private String token;
 
     @Column
-    private int credits;
+    private int credits ;
 
     public User() {
     }
 
-    public User(String username, String token , int credits) {
+    public User(String username, String token ) {
         this.username = username;
         this.token = token;
-        this.credits = credits;
+        this.credits = 1000;
     }
 
     public int getId() {
