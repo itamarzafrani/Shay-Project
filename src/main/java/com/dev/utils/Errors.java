@@ -27,5 +27,9 @@ public class Errors {
 
     //ERRORS TO OFFERS
     public static final int ERROR_LOWER_OFFER_AMOUNT = 1020;
+    public static final int ERROR_LOWER_THAN_STARTING_PRICE = 1021;
+    public static final int ERROR_PRODUCT_IS_NOT_FOR_SALE_ANYMORE= 1022;
+
+
 
 }

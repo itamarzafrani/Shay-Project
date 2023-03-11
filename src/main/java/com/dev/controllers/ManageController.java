@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static com.dev.utils.Errors.ERROR_LOWER_OFFER_AMOUNT;
+import static com.dev.utils.Errors.*;
 
 @RestController
 public class ManageController {
@@ -74,18 +74,24 @@ public class ManageController {
         User user = persist.getUserByToken(token);
         Product product = persist.getProductById(productId);
         Offer highestOffer = persist.getHighestOffer(productId);
-        if (highestOffer == null){
-             newOffer = new Offer(offerPrice, product, user);
-            success = true;
-            basicResponse = new OfferResponse(success, errorCode, newOffer);
-            persist.saveOffer(newOffer);
-        }else if(highestOffer.getOfferAmount() < offerPrice ) {
-             newOffer = new Offer(offerPrice, product, user);
-            success = true;
-            basicResponse = new OfferResponse(success, errorCode, newOffer);
-            persist.saveOffer(newOffer);
-        } else {
-            errorCode = ERROR_LOWER_OFFER_AMOUNT;
+        if (product.isOpen()) {
+            if (offerPrice > product.getProductStartingPrice()) {
+                if (highestOffer == null) {
+                    newOffer = new Offer(offerPrice, product, user);
+                    success = true;
+                    persist.saveOffer(newOffer);
+                } else if (highestOffer.getOfferAmount() < offerPrice) {
+                    newOffer = new Offer(offerPrice, product, user);
+                    success = true;
+                    persist.saveOffer(newOffer);
+                } else {
+                    errorCode = ERROR_LOWER_OFFER_AMOUNT;
+                }
+            } else {
+                errorCode = ERROR_LOWER_THAN_STARTING_PRICE;
+            }
+        }else {
+            errorCode = ERROR_PRODUCT_IS_NOT_FOR_SALE_ANYMORE;
         }
         basicResponse = new OfferResponse(success, errorCode, newOffer);
         return basicResponse;

@@ -112,4 +112,7 @@ public class Product {
     public void setOpen(boolean open) {
         isOpen = open;
     }
+
+
+
 }

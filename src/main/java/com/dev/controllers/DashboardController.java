@@ -82,13 +82,14 @@ public class DashboardController {
         Product product = persist.getProductById(productId);
         List<Offer> offersOnProduct = persist.getAmountOfOffersOnProduct(productId);
         if (offersOnProduct.size() >= 3) {
-            success = true;
-            product.setOpen(false);
-            persist.closeProduct(productId);
-        } else {
+            if(token.equals(product.getPublisher().getToken())) {
+                success = true;
+                persist.closeProduct(productId);
+            }
+            } else {
             errorCode = ERROR_NO_3_OFFERS;
         }
-        basicResponse = new BasicResponse(success, errorCode);
+        basicResponse = new ProductResponse(success, errorCode,product);
         return basicResponse;
     }
 
