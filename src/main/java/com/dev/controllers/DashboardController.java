@@ -78,11 +78,15 @@ public class DashboardController {
         Integer errorCode = null;
         boolean success = false;
         BasicResponse basicResponse;
-        User user = persist.getUserByToken(token);
+        Offer highestOffer = persist.getHighestOffer(productId);
         Product product = persist.getProductById(productId);
         List<Offer> offersOnProduct = persist.getAmountOfOffersOnProduct(productId);
+        int offerUser = highestOffer.getOfferFrom().getId();
+        User user = persist.getUserByToken(token);
         if (offersOnProduct.size() >= 3) {
             if(token.equals(product.getPublisher().getToken())) {
+                // CHECK IF HAVE MONEY
+                persist.payCredit(offerUser,user.getId(),highestOffer.getOfferAmount());
                 success = true;
                 persist.closeProduct(productId);
             }

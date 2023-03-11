@@ -92,6 +92,23 @@ public class Persist {
         session.close();
     }
 
+    public void payCredit(int offerUserId, int productOwnerId, double offerAmount) {
+        Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        User offerUser = (User) session.createQuery("FROM User WHERE id=:offerUserId").
+                setParameter("offerUserId", offerUserId).uniqueResult();
+
+        User productOwner = (User) session.createQuery("FROM User WHERE id=:productOwnerId").
+                setParameter("productOwnerId", productOwnerId).uniqueResult();
+
+        offerUser.setCredits(offerUser.getCredits() - offerAmount);
+        productOwner.setCredits(productOwner.getCredits() + 0.95*offerAmount);
+        session.update(offerUser);
+        session.update(productOwner);
+        tx.commit();
+        session.close();
+    }
+
 
     public List<Product> getAllProducts() {
         Session session = sessionFactory.openSession();
@@ -102,8 +119,9 @@ public class Persist {
 
     public List<Offer> getAllClosedProducts() {
         Session session = sessionFactory.openSession();
-        List<Offer> allClosedProductsOffers = session.createQuery("FROM Offer WHERE product.isOpen = false group by product" +
-                " order by MAX (offerAmount) DESC ").list();
+        List<Offer> allClosedProductsOffers = session.createQuery(" FROM Offer  WHERE " +
+                "product.isOpen = false " +
+                " group by product ").list();
         session.close();
         return allClosedProductsOffers;
     }
