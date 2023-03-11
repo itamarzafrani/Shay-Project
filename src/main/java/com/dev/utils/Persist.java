@@ -117,6 +117,7 @@ public class Persist {
         return allProducts;
     }
 
+    //TODO: TAKE ONLY CLOSED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     public List<Offer> getAllClosedProducts() {
         Session session = sessionFactory.openSession();
         List<Offer> allClosedProductsOffers = session.createQuery(" FROM Offer  WHERE " +
